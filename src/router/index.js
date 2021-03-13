@@ -6,6 +6,7 @@ import PlayList from "../views/PlayList";
 import MyList from "../views/MyList";
 import MyMusic from "../views/MyMusic";
 import Search from "../views/Search";
+import Lyric from "../views/Lyric";
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,10 @@ const routes = [
     path: '/search',
     name: 'Search',
     component: Search
+  },{
+    path:'/lyric',
+    name: 'lyric',
+    component:Lyric
   }
 ]
 

@@ -87,3 +87,14 @@ export const uploadFileRequest = (url, params) => {
     }
   })
 }
+//下载音乐
+export const downloadMusic = (url) =>{
+  return axios({
+    headers: {
+      'Content-Type':'multipart/form-data'
+    },
+    method: 'get',
+    url: url,
+    responseType: 'blob'
+  })
+}

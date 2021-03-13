@@ -1,6 +1,5 @@
 <template>
     <div class="home">
-        <span v-title data-title="NetMusic"></span>
         <swiper/>
         <div class="section" v-for="(item,index) in songsList" :key="index">
             <div class="section-title">{{item.name}}</div>

@@ -11,6 +11,8 @@ import {putRequest} from "@/utils/api";
 import {deleteRequest} from "@/utils/api";
 import {getRequest} from "@/utils/api";
 import {uploadFileRequest} from "./utils/api";
+import {downloadMusic} from "./utils/api";
+
 import '@/assets/js/iconfont.js'
 import '@/assets/js/iconfont1.js'
 import '@/assets/js/iconfont2.js'
@@ -27,7 +29,7 @@ Vue.prototype.putRequest = putRequest;
 Vue.prototype.deleteRequest = deleteRequest;
 Vue.prototype.getRequest = getRequest;
 Vue.prototype.uploadFileRequest = uploadFileRequest;
-
+Vue.prototype.downloadMusic = downloadMusic;
 
 
 

@@ -3,6 +3,9 @@ import Axios from "axios";
 
 //下载音乐
 export const download = (url)  => Axios({
+  headers: {
+    'Content-Type':'application/x-www-form-urlencoded'
+  },
   method: 'get',
   url: url,
   responseType: 'blob'

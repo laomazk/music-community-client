@@ -74,6 +74,6 @@ export default {
 
 <style>
     .song-audio {
-        /*display: none;*/
+        display: none;
     }
 </style>
