@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import Singer from "../views/Singer";
 import PlayList from "../views/PlayList";
 import MyList from "../views/MyList";
-import MyMusic from "../views/MyMusic";
+import My from "../views/My";
 import Search from "../views/Search";
 import Lyric from "../views/Lyric";
 
@@ -24,9 +24,9 @@ const routes = [
     name: 'PlayList',
     component: PlayList
   },{
-    path: '/my-music',
-    name: 'MyMusic',
-    component: MyMusic
+    path: '/my',
+    name: 'My',
+    component: My
   },{
     path: '/my-list',
     name: 'MyList',

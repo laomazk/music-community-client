@@ -1,29 +1,53 @@
 // 匹配规则
+var validatePass = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('请输入密码'));
+  } else {
+    if (this.registerForm.repassword !== '') {
+      this.$refs.registerForm.validateField('repassword');
+    }
+    callback();
+  }
+};
+var validatePass2 = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('请再次输入密码'));
+  } else if (value !== this.registerForm.password) {
+    console.log(3333)
+    callback(new Error('两次输入密码不一致!'));
+  } else {
+    console.log(4444)
+    callback();
+  }
+};
 const rules = {
   username: [
-    { required: true, trigger: 'blur' }
+    {required: true, trigger: 'blur', message: '请输入用户名'}
   ],
   password: [
-    { required: true, trigger: 'blur' }
+    { required: true,validator: validatePass, trigger: 'blur' }
+  ],
+  repassword: [
+    { required: true,validator: validatePass2, trigger: 'blur' }
   ],
   sex: [
-    { required: true, message: '请选择性别', trigger: 'change' }
+    {required: true, message: '请选择性别', trigger: 'change'}
   ],
   phoneNum: [
-    { essage: '请选择日期', trigger: 'blur' }
+    {message: '请输入正确的手机号码', trigger: 'blur',}
   ],
   email: [
-    { message: '请输入邮箱地址', trigger: 'blur' },
-    { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+    {message: '请输入邮箱地址', trigger: 'blur'},
+    {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']}
   ],
   birth: [
-    { required: true, message: '请选择日期', trigger: 'change' }
+    {required: true, message: '请选择日期', trigger: 'change'}
   ],
   introduction: [
-    { message: '请输入介绍', trigger: 'blur' }
+    {message: '请输入介绍', trigger: 'blur'}
   ],
   location: [
-    { message: '请输入地区', trigger: 'change' }
+    {message: '请输入地区', trigger: 'change'}
   ]
 }
 
