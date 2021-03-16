@@ -22,14 +22,14 @@ export default {
     // mixins: [mixin],
     props: ['contentList'],
     methods: {
-        // goAlbum(item,type){
-        //     this.$store.commit("setTempList",item);
-        //     if(type){                   //歌手
-        //         this.$router.push({path:`singer-album/${item.id}`});
-        //     }else{                      //歌单
-        //         this.$router.push({path:`song-list-album/${item.id}`});
-        //     }
-        // }
+        goAlbum(item,type){
+            this.$store.commit("setTempList",item);
+            if(type){                   //歌手
+                this.$router.push({path:`singer-album/${item.id}`}); // singerAlbum
+            }else{                      //歌单
+                this.$router.push({path:`play-list-album/${item.id}`}); //playListAlbum
+            }
+        }
     }
 }
 </script>

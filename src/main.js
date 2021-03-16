@@ -20,6 +20,7 @@ import '@/assets/js/iconfont3.js'
 import './assets/css/index.scss'
 
 import 'font-awesome/css/font-awesome.min.css';
+import './utils/main.css'
 
 Vue.config.productionTip = false
 

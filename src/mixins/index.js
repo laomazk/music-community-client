@@ -15,14 +15,14 @@ export const mixin = {
     getSong() {
       if (!this.$route.query.keywords) {
         this.$store.commit('setListOfSongs', []);
-        // this.notify('您输入的内容为空','warning');
-        Message.warning('您输入的内容为空')
+        this.notify('您输入的内容为空','warning');
+        // Message.warning('您输入的内容为空')
       } else {
         this.getRequest('/user/song/like/' + this.$route.query.keywords).then(res => {
           if (!res.length) {
             this.$store.commit('setListOfSongs', []);
-            // this.notify('系统暂无符合条件的歌曲','warning');
-            Message.warning('系统暂无符合条件的歌曲')
+            this.notify('系统暂无符合条件的歌曲','warning');
+            // Message.warning('系统暂无符合条件的歌曲')
           } else {
             this.$store.commit('setListOfSongs', res);
           }

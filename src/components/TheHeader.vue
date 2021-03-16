@@ -19,7 +19,7 @@
                              active-text-color="#4e72b8"
                     >
 <!--                        :class="{active: item.name == activeName}"  :index="(idx+1)+''"-->
-                        <el-menu-item  v-for="(item,idx) in navMsg" :key="item.path" :index="idx.toString()"
+                        <el-menu-item  v-for="(item,idx) in navMsg" :key="item.path" :index="item.idx"
                                       @click="goPage(item.path,item.name,idx)"
                         >{{item.name}}
                         </el-menu-item>
@@ -241,7 +241,6 @@ export default {
   created() {
     this.navMsg = navMsg;
     this.cities = cities;
-    this.getIndex();
   },
   methods: {
     commandHandler(cmd) {
@@ -253,6 +252,10 @@ export default {
         }).then(() => {
           this.getRequest("/logout");
           window.sessionStorage.removeItem("user")
+          this.$store.commit('setLoginIn',false);
+          this.$store.commit('setUserId','');
+          this.$store.commit('setUsername','');
+          this.$store.commit('setAvator','');
           this.user=JSON.parse(window.sessionStorage.getItem("user"))
         }).catch(() => {
           this.$message({
@@ -272,6 +275,10 @@ export default {
               console.log('登录成功')
               window.sessionStorage.setItem("user", JSON.stringify(resp.obj))
               this.user = resp.obj
+              this.$store.commit('setLoginIn',true);
+              this.$store.commit('setUserId',this.user.id);
+              this.$store.commit('setUsername',this.user.username);
+              this.$store.commit('setAvator',this.user.avator);
               this.dialogVisible = false;
             }
           })
@@ -314,27 +321,12 @@ export default {
       this.$router.push({path: "/"})
     },
     goPage(path, name,idx) {
-      console.log(idx)
       this.midx=idx+''
       this.$store.commit('setActiveName', this.midx);
       this.$router.push({path: path})
     },
     goSearch() {
       this.$router.push({path: '/search', query: {keywords: this.keywords}})
-    },
-    getIndex(){
-      // this.midx =
-      if(this.$route.fullPath=='/'){
-        this.midx = '0';
-      }else if(this.$route.fullPath=='/singer'){
-        this.midx = '1';
-      }else if(this.$route.fullPath=='/play-list'){
-        this.midx = '2';
-      }else if(this.$route.fullPath=='/my'){
-        this.midx = '3';
-      }else{
-        this.midx = '5';
-      }
     }
   }
 }
@@ -362,6 +354,8 @@ export default {
         padding: 0px 15px;
         box-sizing: border-box;
         margin-bottom: -70px;
+        position: relative;
+        z-index: 2;
     }
     .homeHeader .homeLeft{
         display: flex;

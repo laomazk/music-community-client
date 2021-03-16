@@ -1,9 +1,9 @@
 //左侧导航栏
 const navMsg = [
-  {name: '首页', path: '/'},
-  {name: '歌手', path: '/singer'},
-  {name: '歌单', path: '/play-list'},
-  {name: '我的', path: '/my'},
+  {name: '首页', path: '/',idx:'0'},
+  {name: '歌手', path: '/singer',idx:'1'},
+  {name: '歌单', path: '/play-list',idx:'2'},
+  {name: '我的', path: '/my',idx:'3'},
 ]
 
 //右侧导航栏

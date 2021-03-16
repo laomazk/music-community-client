@@ -7,6 +7,8 @@ import MyList from "../views/MyList";
 import My from "../views/My";
 import Search from "../views/Search";
 import Lyric from "../views/Lyric";
+import SingerAlbum from "../views/SingerAlbum";
+import PlayListAlbum from "../views/PlayListAlbum";
 
 Vue.use(VueRouter)
 
@@ -39,6 +41,14 @@ const routes = [
     path:'/lyric',
     name: 'lyric',
     component:Lyric
+  },{
+    path:'/singer-album/:id',
+    name: 'singerAlbum',
+    component:SingerAlbum
+  },{
+    path:'/play-list-album/:id',
+    name: 'playListAlbum',
+    component:PlayListAlbum
   }
 ]
 
