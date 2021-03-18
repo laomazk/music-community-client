@@ -6,13 +6,11 @@
             </div>
             <div class="album-info">
                 <h2>简介：</h2>
-                <span>
-                    {{playList.introduction}}
-                </span>
+                <span>{{playList.introduction}}</span>
             </div>
         </div>
         <div class="album-content">
-            <div class="album-title">
+            <div class="album-title" style="display: flex; justify-content: space-between">
                 <p>{{playList.title}}</p>
             </div>
             <div class="album-score">
@@ -29,12 +27,17 @@
                         <el-rate v-model="rank" allow-half show-text></el-rate>
                     </div>
                 </div>
+                <div style="font-size: 22px;margin-left: 250px;cursor: pointer" @click="startPlayList">
+                    <i class="fa fa-heart" aria-hidden="true"style="color: red"  v-if="isStar">&nbsp;已收藏</i>
+                    <i class="fa fa-heart" aria-hidden="true"style="color: black"  v-if="!isStar">&nbsp;收藏歌单</i>
+
+                </div>
             </div>
             <div class="songs-body">
                 <album-content :songList="listOfSongs">
                     <template slot="title">歌单</template>
                 </album-content>
-                            <comment :playId="songListId" :type="1"></comment>
+                <comment :playId="songListId" :type="1"></comment>
             </div>
         </div>
     </div>
@@ -60,7 +63,8 @@ export default {
       songListId: '',    //前面传来的歌单id
       average: 0,         //平均分
       rank: 0,            //提交评价的分数
-      playList: ''
+      playList: '',
+      isStar:false
     }
   },
   computed: {
@@ -73,11 +77,44 @@ export default {
   },
   created() {
     this.songListId = this.$route.params.id;
+    this.checkStar();
     this.getSongId();
     this.getRank(this.songListId);
     this.getSongListDetail(this.songListId)
   },
   methods: {
+    // 检查歌单是否收藏
+    checkStar(){
+      if(this.loginIn){
+        this.getRequest('/user/star/check/?userId='+this.userId+'&playListId='+this.songListId).then(resp=>{
+          if(resp){
+            this.isStar=true;
+          }else{
+            this.isStar=false;
+          }
+        })
+      }else {
+        this.isStar=false;
+      }
+    },
+    // 收藏歌单
+    startPlayList(){
+      if (this.loginIn) {
+        var params = {}
+        // params['']=
+        params['userId'] = this.userId
+        params['type'] = 1
+        params['playListId'] = this.songListId
+        console.log(params)
+        this.postRequest('/user/star/',params).then(resp=>{
+          if(resp){
+            this.isStar = true
+          }
+        })
+      } else {
+        Message.warning("请先登录")
+      }
+    },
     // 根据歌单id获取歌单对象
     getSongListDetail(id) {
       this.getRequest('/user/playlist/id/' + id).then(res => {
@@ -133,7 +170,7 @@ export default {
           .catch(err => {
             Message.error({message: '你已经评价过了o(╯□╰)o'})
           })
-      }else{
+      } else {
         this.rank = null;
         Message.warning('请先登录');
       }

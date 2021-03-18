@@ -2,7 +2,12 @@ import {mapGetters} from 'vuex';
 import {Message} from "element-ui";
 
 export const mixin = {
-  computed: {},
+  computed: {
+    ...mapGetters([
+      'loginIn',              //用户是否已登录
+      'userId',               //当前登录用户的id
+    ])
+  },
   methods: {
     //提示信息
     notify(title, type) {
@@ -52,15 +57,15 @@ export const mixin = {
       this.$store.commit('setLyric', this.parseLyric(lyric));
       this.$store.commit('setIsActive', false);
       if (this.loginIn) {
-        getCollectOfUserId(this.userId)
-          .then(res => {
-            for (let item of res) {
-              if (item.songId == id) {
-                this.$store.commit('setIsActive', true);
-                break;
-              }
+        // 判断该用户有没有收藏该播放的歌曲
+        this.getRequest('/user/star/' + this.userId).then(res => {
+          for (let item of res) {
+            if (item.songId == id) {
+              this.$store.commit('setIsActive', true);
+              break;
             }
-          })
+          }
+        })
       }
     },
     //解析歌词

@@ -84,7 +84,7 @@
 </template>
 <script>
 import {mapGetters} from 'vuex';
-import {setCollect, getCollectOfUserId} from '../api/index';
+import {Message} from "element-ui";
 
 export default {
   name: 'play-bar',
@@ -289,15 +289,15 @@ export default {
         this.$store.commit('setLyric', this.parseLyric(this.listOfSongs[this.listIndex].lyric));
         this.$store.commit('setIsActive', false);
         if (this.loginIn) {
-          getCollectOfUserId(this.userId)
-            .then(res => {
-              for (let item of res) {
-                if (item.songId == id) {
-                  this.$store.commit('setIsActive', true);
-                  break;
-                }
+          // 判断该用户有没有收藏该播放的歌曲
+          this.getRequest('/user/star/' + this.userId).then(res => {
+            for (let item of res) {
+              if (item.songId == id) {
+                this.$store.commit('setIsActive', true);
+                break;
               }
-            })
+            }
+          })
         }
       }
     },
@@ -313,7 +313,7 @@ export default {
     },
     //解析歌词
     parseLyric(text) {
-      if(text == '[00:00:00]暂无歌词'){
+      if (text == '[00:00:00]暂无歌词') {
         return [];
       }
       let lines = text.split("\n");                   //将歌词按行分解成数组
@@ -328,8 +328,8 @@ export default {
         lines = lines.slice(1);
       }
       //去掉后面格式不正确的行
-      while(!pattern.test(lines[lines.length-1])){
-        lines = lines.slice(0,lines.length-1)
+      while (!pattern.test(lines[lines.length - 1])) {
+        lines = lines.slice(0, lines.length - 1)
       }
       //遍历每一行，形成一个每行带着俩元素的数组，第一个元素是以秒为计算单位的时间，第二个元素是歌词
       for (let item of lines) {
@@ -356,7 +356,7 @@ export default {
     download() {
       console.log(this.url);
       // window.open(this.url,'_parent')
-      window.open('/user/song/download/'+this.id,'_parent')
+      window.open('/user/song/download/' + this.id, '_parent')
 
       // this.download(this.url)
       //   .then(res => {
@@ -385,23 +385,33 @@ export default {
     //收藏
     collection() {
       if (this.loginIn) {
-        var params = new URLSearchParams();
-        params.append('userId', this.userId);
-        params.append('type', 0);
-        params.append('songId', this.id);
-        setCollect(params)
-          .then(res => {
-            if (res.code == 1) {
-              this.$store.commit('setIsActive', true);
-              this.notify('收藏成功', 'success');
-            } else if (res.code == 2) {
-              this.notify('已收藏', 'warning');
-            } else {
-              this.notify('收藏失败', 'error');
-            }
-          })
+        var params = {}
+        // params['']=
+        params['userId'] = this.userId
+        params['type'] = 0
+        params['songId'] = this.id
+        this.postRequest('/user/star/',params).then(resp=>{
+          if(resp){
+            this.$store.commit('setIsActive', true);
+          }
+        })
+        // var params = new URLSearchParams();
+        // params.append('userId', this.userId);
+        // params.append('type', 0);
+        // params.append('songId', this.id);
+        // setCollect(params)
+        //   .then(res => {
+        //     if (res.code == 1) {
+        //       this.$store.commit('setIsActive', true);
+        //       this.notify('收藏成功', 'success');
+        //     } else if (res.code == 2) {
+        //       this.notify('已收藏', 'warning');
+        //     } else {
+        //       this.notify('收藏失败', 'error');
+        //     }
+        //   })
       } else {
-        this.notify('请先登录', 'warning');
+        Message.warning("请先登录")
       }
     }
   }

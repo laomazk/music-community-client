@@ -35,7 +35,7 @@ export default {
     // 获取前10 条歌单
     getSongList() {
       this.getRequest('/user/playlist/').then(res => {
-        this.songsList[0].list = res.slice(0, 10);
+        this.songsList[0].list = res.data
       }).catch(err => {
         console.log(err)
       })
@@ -43,7 +43,7 @@ export default {
     // 获取前10 个歌手
     getSinger() {
       this.getRequest('/user/singer/').then(res => {
-        this.songsList[1].list = res.slice(0, 10);
+        this.songsList[1].list = res.data
       }).catch(err => {
         console.log(err)
       })

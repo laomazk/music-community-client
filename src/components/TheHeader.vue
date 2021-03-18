@@ -9,33 +9,35 @@
                     NetMusic
                 </div>
                 <div style="margin-left: 30px;height: 60px">
-<!--                    :default-active="0"-->
+                    <!--                    :default-active="0"-->
                     <el-menu
                             :default-active="midx"
-                             class="el-menu-demo"
-                             mode="horizontal"
-                             background-color="#409eff"
-                             text-color="#fff1fd"
-                             active-text-color="#4e72b8"
+                            class="el-menu-demo"
+                            mode="horizontal"
+                            background-color="#409eff"
+                            text-color="#fff1fd"
+                            active-text-color="#4e72b8"
                     >
-<!--                        :class="{active: item.name == activeName}"  :index="(idx+1)+''"-->
-                        <el-menu-item  v-for="(item,idx) in navMsg" :key="item.path" :index="item.idx"
+                        <!--                        :class="{active: item.name == activeName}"  :index="(idx+1)+''"-->
+                        <el-menu-item v-for="(item,idx) in navMsg" :key="item.path" :index="item.idx"
                                       @click="goPage(item.path,item.name,idx)"
                         >{{item.name}}
                         </el-menu-item>
                     </el-menu>
                 </div>
                 <div style="margin-top: 17px;padding-left: 30px">
-                    <el-input placeholder="搜索音乐" size="small"  @keydown.enter.native="goSearch()" v-model="keywords" style="width: 270px"
+                    <el-input placeholder="搜索音乐" size="small" @keydown.enter.native="goSearch()" v-model="keywords"
+                              style="width: 270px"
                               suffix-icon="el-icon-search"
                     />
-                    <el-button  size="small"  style="margin-left: 5px" @click="goSearch()">搜索</el-button>
+                    <el-button size="small" style="margin-left: 5px" @click="goSearch()">搜索</el-button>
                 </div>
             </div>
             <div>
                 <div style="padding-right: 50px">
                     <el-button plain size="small" @click="showLoginView" v-if="!user">登录</el-button>
-                    <el-button icon="el-icon-bell" type="text" style="margin-right: 8px;color: #000000;" size="normal"  v-if="user">
+                    <el-button icon="el-icon-bell" type="text" style="margin-right: 8px;color: #000000;" size="normal"
+                               v-if="user">
                     </el-button>
                     <el-dropdown class="userInfo" @command="commandHandler" v-if="user">
                           <span class="el-dropdown-link">
@@ -64,7 +66,8 @@
                                 <el-input v-model="loginForm.username" placeholder="用户名"></el-input>
                             </el-form-item>
                             <el-form-item prop="password" label="密码" style="width: 300px">
-                                <el-input type="password" v-model="loginForm.password" placeholder="密码"></el-input>
+                                <el-input type="password" v-model="loginForm.password" placeholder="密码"
+                                          @keydown.enter.native="handleLogin"></el-input>
                             </el-form-item>
                             <br/>
                             <el-button size="small" @click="toRegister" style="margin-left: -30px">注 册</el-button>
@@ -132,6 +135,7 @@
 import {navMsg} from "../assets/data/header";
 import {mapGetters} from 'vuex';
 import {cities} from "../assets/data/form";
+import {Message} from "element-ui";
 
 export default {
   name: "TheHeader",
@@ -230,12 +234,14 @@ export default {
       cities: [],            //所有的地区--省
       tabName: 'normalLogin',
       user: JSON.parse(window.sessionStorage.getItem("user")),
-      midx:'0'
+      midx: '0'
     }
   },
   computed: {
     ...mapGetters([
-      'activeName'
+      'activeName',
+      'loginIn',
+      'avator'
     ])
   },
   created() {
@@ -252,15 +258,16 @@ export default {
         }).then(() => {
           this.getRequest("/logout");
           window.sessionStorage.removeItem("user")
-          this.$store.commit('setLoginIn',false);
-          this.$store.commit('setUserId','');
-          this.$store.commit('setUsername','');
-          this.$store.commit('setAvator','');
-          this.user=JSON.parse(window.sessionStorage.getItem("user"))
+          this.$store.commit('setLoginIn', false);
+          this.$store.commit('setUserId', '');
+          this.$store.commit('setUsername', '');
+          this.$store.commit('setAvator', '');
+          this.$store.commit('setIsActive', false);
+          this.user = JSON.parse(window.sessionStorage.getItem("user"))
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: '已取消'
           });
         });
       }
@@ -275,10 +282,10 @@ export default {
               console.log('登录成功')
               window.sessionStorage.setItem("user", JSON.stringify(resp.obj))
               this.user = resp.obj
-              this.$store.commit('setLoginIn',true);
-              this.$store.commit('setUserId',this.user.id);
-              this.$store.commit('setUsername',this.user.username);
-              this.$store.commit('setAvator',this.user.avator);
+              this.$store.commit('setLoginIn', true);
+              this.$store.commit('setUserId', this.user.id);
+              this.$store.commit('setUsername', this.user.username);
+              this.$store.commit('setAvator', this.user.avator);
               this.dialogVisible = false;
             }
           })
@@ -320,10 +327,14 @@ export default {
     goHome() {
       this.$router.push({path: "/"})
     },
-    goPage(path, name,idx) {
-      this.midx=idx+''
-      this.$store.commit('setActiveName', this.midx);
-      this.$router.push({path: path})
+    goPage(path, name, idx) {
+      if (!this.loginIn && path == '/my') {
+        Message.warning('请先登录')
+      } else {
+        this.midx = idx + ''
+        this.$store.commit('setActiveName', this.midx);
+        this.$router.push({path: path})
+      }
     },
     goSearch() {
       this.$router.push({path: '/search', query: {keywords: this.keywords}})
@@ -357,9 +368,11 @@ export default {
         position: relative;
         z-index: 2;
     }
-    .homeHeader .homeLeft{
+
+    .homeHeader .homeLeft {
         display: flex;
     }
+
     .homeHeader .title {
         padding-left: 50px;
         padding-top: 13px;
