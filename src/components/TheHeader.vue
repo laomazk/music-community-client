@@ -242,7 +242,10 @@ export default {
       'activeName',
       'loginIn',
       'avator'
-    ])
+    ]),
+    user1(){
+      return this.$store.state.currentListener;
+    }
   },
   created() {
     this.navMsg = navMsg;
@@ -270,6 +273,8 @@ export default {
             message: '已取消'
           });
         });
+      } else if(cmd=='userinfo'){
+        this.$router.push({path:'/listenerinfo'})
       }
 
     },
@@ -282,6 +287,7 @@ export default {
               console.log('登录成功')
               window.sessionStorage.setItem("user", JSON.stringify(resp.obj))
               this.user = resp.obj
+
               this.$store.commit('setLoginIn', true);
               this.$store.commit('setUserId', this.user.id);
               this.$store.commit('setUsername', this.user.username);

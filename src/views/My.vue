@@ -22,7 +22,7 @@
                 <br>
                 <br>
                 <br>
-                <div style="background-color: white;text-align: center;height: 360px">
+                <div style="background-color: white;text-align: center;">
                     <h1 class="title">
                         我的歌单
                     </h1>

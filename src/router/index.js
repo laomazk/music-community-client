@@ -9,6 +9,7 @@ import Search from "../views/Search";
 import Lyric from "../views/Lyric";
 import SingerAlbum from "../views/SingerAlbum";
 import PlayListAlbum from "../views/PlayListAlbum";
+import ListenerInfo from "../views/ListenerInfo";
 
 Vue.use(VueRouter)
 
@@ -16,7 +17,12 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+
+  },{
+    path:'/listenerinfo',
+    name:'个人中心',
+    component:ListenerInfo,
   },{
     path: '/singer',
     name: 'singer',
