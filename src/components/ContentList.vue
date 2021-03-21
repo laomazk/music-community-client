@@ -35,4 +35,5 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../assets/css/content-list.scss';
+@import '../assets/css/index.scss';
 </style>

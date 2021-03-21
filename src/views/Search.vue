@@ -41,4 +41,5 @@ export default {
 
 <style lang="scss" scoped>
     @import '../assets/css/search.scss';
+    @import '../assets/css/index.scss';
 </style>

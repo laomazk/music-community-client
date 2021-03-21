@@ -27,4 +27,5 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/css/search-songs.scss';
+@import '../../assets/css/index.scss';
 </style>

@@ -79,4 +79,5 @@ export default {
 
 <style lang="scss" scoped>
     @import '../assets/css/singer.scss';
+    @import '../assets/css/index.scss';
 </style>

@@ -59,4 +59,5 @@ export default {
 </script>
 <style lang="scss" scoped>
     @import '../assets/css/upload.scss';
+    @import '../assets/css/index.scss';
 </style>

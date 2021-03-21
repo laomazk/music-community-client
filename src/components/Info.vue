@@ -140,4 +140,5 @@ export default {
 
 <style lang="scss" scoped>
     @import '../assets/css/info.scss';
+    @import '../assets/css/index.scss';
 </style>

@@ -10,6 +10,7 @@ import Lyric from "../views/Lyric";
 import SingerAlbum from "../views/SingerAlbum";
 import PlayListAlbum from "../views/PlayListAlbum";
 import ListenerInfo from "../views/ListenerInfo";
+import FriendChat from "../views/chat/FriendChat";
 
 Vue.use(VueRouter)
 
@@ -55,6 +56,10 @@ const routes = [
     path:'/play-list-album/:id',
     name: 'playListAlbum',
     component:PlayListAlbum
+  },{
+    path:'/chat',
+    name: 'FriendChat',
+    component:FriendChat
   }
 ]
 

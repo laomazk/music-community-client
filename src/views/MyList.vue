@@ -12,4 +12,5 @@ export default {
 
 <style scoped>
 
+    /*@import '../assets/css/index.scss';*/
 </style>

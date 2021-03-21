@@ -62,4 +62,6 @@ export default {
 </script>
 <style lang="scss" scoped>
     @import '../assets/css/lyric.scss';
+    @import '../assets/css/index.scss';
+
 </style>

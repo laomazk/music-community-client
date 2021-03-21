@@ -40,4 +40,5 @@ export default {
 
 <style lang="scss" scoped>
 @import '../assets/css/album-content.scss';
+@import '../assets/css/index.scss';
 </style>

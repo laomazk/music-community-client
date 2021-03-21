@@ -174,13 +174,13 @@ export default {
             if(resp){
               this.getRequest("/logout");
               window.sessionStorage.removeItem("user")
-              his.$store.commit('setLoginIn', false);
+              this.$store.commit('setLoginIn', false);
               this.$store.commit('setUserId', '');
               this.$store.commit('setUsername', '');
               this.$store.commit('setAvator', '');
               this.$store.commit('setIsActive', false);
               this.passwdDialogVisible = false
-              this.$router.replace("/");
+              this.$router.push("/");
             }
           })
         } else {
@@ -232,5 +232,6 @@ export default {
 </script>
 
 <style scoped>
+    /*@import '../assets/css/index.scss';*/
 
 </style>

@@ -419,4 +419,5 @@ export default {
 </script>
 <style lang="scss" scoped>
     @import '../assets/css/play-bar.scss';
+    @import '../assets/css/index.scss';
 </style>

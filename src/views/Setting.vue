@@ -47,4 +47,5 @@ export default {
 
 <style lang="scss" scoped>
     @import '../assets/css/setting.scss';
+    @import '../assets/css/index.scss';
 </style>

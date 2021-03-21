@@ -93,4 +93,5 @@ export default {
 
 <style lang="scss" scoped>
     @import '../assets/css/singer-album.scss';
+    @import '../assets/css/index.scss';
 </style>

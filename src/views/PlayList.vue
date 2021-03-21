@@ -82,4 +82,5 @@ export default {
 
 <style lang="scss" scoped>
     @import '../assets/css/song-list.scss';
+    @import '../assets/css/index.scss';
 </style>

@@ -35,18 +35,17 @@
             </div>
             <div>
                 <div style="padding-right: 50px">
-                    <el-button plain size="small" @click="showLoginView" v-if="!user">登录</el-button>
-                    <el-button icon="el-icon-bell" type="text" style="margin-right: 8px;color: #000000;" size="normal"
-                               v-if="user">
+                    <el-button plain size="small" @click="showLoginView" v-if="!loginIn">登录</el-button>
+                    <el-button icon="el-icon-bell" type="text" style="margin-right: 8px;color: #000000;" size="normal" @click="goChat"
+                               v-if="loginIn">
                     </el-button>
-                    <el-dropdown class="userInfo" @command="commandHandler" v-if="user">
+                    <el-dropdown class="userInfo" @command="commandHandler" v-if="loginIn">
                           <span class="el-dropdown-link">
                             {{ user.username }}
                             <i><img :src="user.avator" alt=""></i>
                           </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item command="userinfo">个人中心</el-dropdown-item>
-                            <br>
                             <el-dropdown-item divided command="logout">注销登录</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -243,7 +242,7 @@ export default {
       'loginIn',
       'avator'
     ]),
-    user1(){
+    user1() {
       return this.$store.state.currentListener;
     }
   },
@@ -252,6 +251,10 @@ export default {
     this.cities = cities;
   },
   methods: {
+    // 跳转到聊天页面
+    goChat(){
+        this.$router.push('/chat')
+    },
     commandHandler(cmd) {
       if (cmd == 'logout') {
         this.$confirm('此操作将注销登录, 是否继续?', '提示', {
@@ -273,8 +276,8 @@ export default {
             message: '已取消'
           });
         });
-      } else if(cmd=='userinfo'){
-        this.$router.push({path:'/listenerinfo'})
+      } else if (cmd == 'userinfo') {
+        this.$router.push({path: '/listenerinfo'})
       }
 
     },
@@ -285,6 +288,8 @@ export default {
           this.postKeyValueRequest('/doLogin', this.loginForm).then(resp => {
             if (resp) {
               console.log('登录成功')
+              this.$store.dispatch('connect');
+              this.$store.commit('INIT_CURRENTLISTENER',resp.obj)
               window.sessionStorage.setItem("user", JSON.stringify(resp.obj))
               this.user = resp.obj
 

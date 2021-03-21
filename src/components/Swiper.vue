@@ -34,4 +34,5 @@ export default {
 
 <style lang="scss" scoped>
     @import '../assets/css/swiper.scss';
+    @import '../assets/css/index.scss';
 </style>

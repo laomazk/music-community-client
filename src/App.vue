@@ -8,8 +8,6 @@
         <play-bar/>
         <scroll-top/>
         <the-footer/>
-
-
     </div>
 </template>
 

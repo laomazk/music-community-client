@@ -17,10 +17,9 @@ import '@/assets/js/iconfont.js'
 import '@/assets/js/iconfont1.js'
 import '@/assets/js/iconfont2.js'
 import '@/assets/js/iconfont3.js'
-import './assets/css/index.scss'
+// import './assets/css/index.scss'
 
 import 'font-awesome/css/font-awesome.min.css';
-import './utils/main.css'
 
 Vue.config.productionTip = false
 

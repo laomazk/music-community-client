@@ -11,4 +11,5 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../assets/css/the-footer.scss';
+@import '../assets/css/index.scss';
 </style>
