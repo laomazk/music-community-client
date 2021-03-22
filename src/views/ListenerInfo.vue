@@ -100,7 +100,7 @@
                             <el-tag>生日：</el-tag>
                         </td>
                         <td>
-                            <el-date-picker type="date" placeholder="选择日期" v-model="listener2.birth"
+                            <el-date-picker type="date" placeholder="选择日期" v-model="listener2.birth" value-format="yyyy-MM-dd"
                                             style="width: 100%"></el-date-picker>
                         </td>
                     </tr>
