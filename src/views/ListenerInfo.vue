@@ -40,7 +40,8 @@
                 :visible.sync="passwdDialogVisible"
                 width="30%">
             <div>
-                <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
+                         class="demo-ruleForm">
                     <el-form-item label="请输入旧密码" prop="oldPass">
                         <el-input type="password" v-model="ruleForm.oldPass" autocomplete="off"></el-input>
                     </el-form-item>
@@ -114,121 +115,124 @@
 </template>
 
 <script>
-export default {
-  name: "ListenerInfo",
-  data() {
-    var validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'));
-      } else {
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass');
-        }
-        callback();
-      }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'));
-      } else if (value !== this.ruleForm.pass) {
-        callback(new Error('两次输入密码不一致!'));
-      } else {
-        callback();
-      }
-    };
-    return {
-      ruleForm: {
-        oldPass:'',
-        pass: '',
-        checkPass: ''
-      },
-      rules: {
-        oldPass: [
-          { validator: validatePass, trigger: 'blur' }
-        ],
-        pass: [
-          { validator: validatePass, trigger: 'blur' }
-        ],
-        checkPass: [
-          { validator: validatePass2, trigger: 'blur' }
-        ]
-      },
-      listener: '',
-      listener2: '',
-      dialogVisible: false,
-      passwdDialogVisible: false,
-    }
-  },
-  mounted() {
-    this.initListener();
-  },
-  methods: {
-    onSuccess(){
-      this.initListener();
-    },
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.ruleForm.lisId = this.listener.id
-          this.putRequest('/my/pass',this.ruleForm).then(resp=>{
-            if(resp){
-              this.getRequest("/logout");
-              window.sessionStorage.removeItem("user")
-              this.$store.commit('setLoginIn', false);
-              this.$store.commit('setUserId', '');
-              this.$store.commit('setUsername', '');
-              this.$store.commit('setAvator', '');
-              this.$store.commit('setIsActive', false);
-              this.passwdDialogVisible = false
-              this.$router.push("/");
-            }
-          })
-        } else {
-          return false;
-        }
-      });
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-    showUpdatePasswdView(){
-      this.passwdDialogVisible = true
-    },
-    updateUserInfo() {
-      console.log(this.listener2)
-      this.putRequest('/my/info', this.listener2).then(resp => {
 
-        if (resp) {
-          this.dialogVisible = false
-          this.initListener();
+    export default {
+        name: "ListenerInfo",
+        data() {
+            var validatePass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入密码'));
+                } else {
+                    if (this.ruleForm.checkPass !== '') {
+                        this.$refs.ruleForm.validateField('checkPass');
+                    }
+                    callback();
+                }
+            };
+            var validatePass2 = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请再次输入密码'));
+                } else if (value !== this.ruleForm.pass) {
+                    callback(new Error('两次输入密码不一致!'));
+                } else {
+                    callback();
+                }
+            };
+            return {
+                ruleForm: {
+                    oldPass: '',
+                    pass: '',
+                    checkPass: ''
+                },
+                rules: {
+                    oldPass: [
+                        {validator: validatePass, trigger: 'blur'}
+                    ],
+                    pass: [
+                        {validator: validatePass, trigger: 'blur'}
+                    ],
+                    checkPass: [
+                        {validator: validatePass2, trigger: 'blur'}
+                    ]
+                },
+                listener: '',
+                listener2: '',
+                dialogVisible: false,
+                passwdDialogVisible: false,
+            }
+        },
+        mounted() {
+            this.initListener();
+        },
+        methods: {
+            onSuccess() {
+                this.initListener();
+            },
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.ruleForm.lisId = this.listener.id
+                        this.putRequest('/my/pass', this.ruleForm).then(resp => {
+                            if (resp) {
+                                this.getRequest("/logout");
+                                window.sessionStorage.removeItem("user")
+                                this.$store.commit('setLoginIn', false);
+                                this.$store.commit('setUserId', '');
+                                this.$store.commit('setUsername', '');
+                                this.$store.commit('setAvator', '');
+                                this.$store.commit('setIsActive', false);
+                                this.passwdDialogVisible = false
+                                this.$router.push("/");
+                            }
+                        })
+                    } else {
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            showUpdatePasswdView() {
+                this.passwdDialogVisible = true
+            },
+            updateUserInfo() {
+                console.log('>>>>>>>'+this.listener2.birth)
+                // this.listener2.birth = this.attachBirth(this.listener2.birth)
+                console.log('>>>>>>>'+this.listener2.birth)
+                    this.putRequest('/my/info', this.listener2).then(resp => {
+
+                        if (resp) {
+                            this.dialogVisible = false
+                            this.initListener();
+                        }
+                    })
+            },
+            showUpdateUserInfo() {
+                this.dialogVisible = true
+            },
+            initListener() {
+                this.getRequest('/my/info').then(resp => {
+                    if (resp) {
+                        this.listener = resp
+                        this.listener2 = Object.assign({}, this.listener)
+                        window.sessionStorage.setItem("user", JSON.stringify(resp))
+                        this.$store.commit('setUsername', resp.username);
+                        this.$store.commit('setAvator', resp.avator);
+                    }
+                })
+            },
+            //获取性别
+            attachSex(value) {
+                if (value == 0) {
+                    return '女'
+                } else if (value == 1) {
+                    return '男'
+                }
+                return ''
+            }
         }
-      })
-    },
-    showUpdateUserInfo() {
-      this.dialogVisible = true
-    },
-    initListener() {
-      this.getRequest('/my/info').then(resp => {
-        if (resp) {
-          this.listener = resp
-          this.listener2 = Object.assign({}, this.listener)
-          window.sessionStorage.setItem("user", JSON.stringify(resp))
-          this.$store.commit('setUsername', resp.username);
-          this.$store.commit('setAvator', resp.avator);
-        }
-      })
-    },
-    //获取性别
-    attachSex(value) {
-      if (value == 0) {
-        return '女'
-      } else if (value == 1) {
-        return '男'
-      }
-      return ''
-    },
-  }
-}
+    }
 </script>
 
 <style scoped>

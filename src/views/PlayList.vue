@@ -24,6 +24,7 @@ import {songStyle} from '../assets/data/songList';
 
 export default {
   name: 'play-list',
+
   components: {
     ContentList
   },

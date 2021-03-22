@@ -78,7 +78,7 @@ const store = new Vuex.Store({
     },
     initData(context) {
       context.commit('INIT_DATA')
-      getRequest("/chat/listeners").then(resp => {
+      getRequest("/friend/").then(resp => {
         if (resp) {
           context.commit('INIT_LISTENER', resp);
         }
